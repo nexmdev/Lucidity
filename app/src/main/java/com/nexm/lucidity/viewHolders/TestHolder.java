@@ -36,6 +36,14 @@ public class TestHolder extends RecyclerView.ViewHolder {
         marksView = itemView.findViewById(R.id.test_marks);
         timeView = itemView.findViewById(R.id.test_time);
         startView = itemView.findViewById(R.id.test_start);
+        startView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(listener!=null){
+                    listener.onItemClick(getAdapterPosition());
+                }
+            }
+        });
 
     }
 

@@ -9,7 +9,8 @@
     <item
         android:id="@+id/navigation_notes"
         android:icon="@drawable/ic_action_document"
-        android:title="Notes" />
+        android:title="Notes"
+        android:visible="false" />
 
     <item
         android:id="@+id/navigation_notifications"
@@ -18,7 +19,8 @@
     <item
         android:id="@+id/ask"
         android:icon="@drawable/ic_action_circles"
-        android:title="Ask" />
+        android:title="Ask"
+        android:visible="false" />
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_action_user"

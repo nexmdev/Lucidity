@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.nexm.lucidity.fragments.Sub_UnitFragment;
 import com.nexm.lucidity.fragments.TodayClassFragment;
@@ -22,16 +23,22 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         //getSupportActionBar().setElevation(0);
+        String caller = getIntent().getStringExtra("CALLER");
+        if(caller.matches("TOPICS")){
+            String unitNo = getIntent().getStringExtra("UNIT_NO");
+            String unitName = getIntent().getStringExtra("UNIT_NAME");
+            String unitID = getIntent().getStringExtra("UNIT_ID");
+            String subject = getIntent().getStringExtra("SUBJECT");
+            String description = getIntent().getStringExtra("DESCRIPTION");
+            String current = getIntent().getStringExtra("CURRENT_TOPIC");
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentlayout,TopicsFragment.newInstance(unitNo,unitName,unitID,subject,description,current ))
+                    .commit();
+        }else{
 
-        String unitNo = getIntent().getStringExtra("UNIT_NO");
-        String unitName = getIntent().getStringExtra("UNIT_NAME");
-        String unitID = getIntent().getStringExtra("UNIT_ID");
-        String subject = getIntent().getStringExtra("SUBJECT");
-        String description = getIntent().getStringExtra("DESCRIPTION");
-        String current = getIntent().getStringExtra("CURRENT_TOPIC");
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentlayout,TopicsFragment.newInstance(unitNo,unitName,unitID,subject,description,current ))
-                .commit();
+            Toast.makeText(this,"Tests",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

@@ -268,6 +268,7 @@ public class TodayClassFragment extends Fragment {
                         intent.putExtra("DESCRIPTION",getItem(currentposition).getDescription());
                         intent.putExtra("SUBJECT",currentSubject);
                         intent.putExtra("CURRENT_TOPIC",topic.getId());
+                        intent.putExtra("CALLER","TOPICS");
                         getActivity().startActivity(intent);
 
                     }

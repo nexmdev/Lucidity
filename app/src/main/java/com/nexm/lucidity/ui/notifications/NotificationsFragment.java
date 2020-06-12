@@ -72,7 +72,7 @@ public class NotificationsFragment extends Fragment {
                             intent.putExtra("UNIT_NO",selectedTest.getUnitNo());
                             intent.putExtra("UNIT_NAME",selectedTest.getUnit());
                             intent.putExtra("TEST_ID",selectedTest.getId());
-                            //intent.putExtra("TOPIC_NAME",selectedTest.getName());
+                            intent.putExtra("CALLER","TESTS");
                             intent.putExtra("TEST_MARKS",selectedTest.getMarks());
                             intent.putExtra("TEST_TIME",selectedTest.getTime());
                             intent.putExtra("SUBJECT",selectedTest.getSubject());

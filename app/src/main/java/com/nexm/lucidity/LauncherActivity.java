@@ -65,7 +65,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.launcher_frame_layout,new SignInFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                                 .commit();
 
                 }
@@ -101,6 +101,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.launcher_frame_layout,new SignInFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                         .commit();
 
         }
