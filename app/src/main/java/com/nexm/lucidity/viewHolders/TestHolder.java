@@ -40,13 +40,13 @@ public class TestHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindData(final Test test, Context context){
-        testNoView.setText(String.valueOf(getAdapterPosition()));
+        testNoView.setText("TEST NO : "+String.valueOf(getAdapterPosition()+1));
         subjectView.setText(test.getSubject());
-        unitNoView.setText(test.getUnitNo());
+        unitNoView.setText("Unit no. : "+test.getUnitNo());
         unitnameView.setText(test.getUnit());
         descView.setText(test.getDescription());
-        marksView.setText(test.getMarks());
-        timeView.setText(test.getTime()+" min");
+        marksView.setText("MARKS : "+test.getMarks());
+        timeView.setText("TIME : "+test.getTime()+" min");
 
     }
 }

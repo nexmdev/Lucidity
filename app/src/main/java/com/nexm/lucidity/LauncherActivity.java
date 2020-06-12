@@ -34,7 +34,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private HashMap<String, Object> firebaseDefaultMap;
     public static final String VERSION_CODE_KEY = "latest_app_version";
     private static final String TAG = "MainActivity";
- 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
