@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1080925570725",
+    "firebase_url": "https://lucidity-6e2e0.firebaseio.com",
+    "project_id": "lucidity-6e2e0",
+    "storage_bucket": "lucidity-6e2e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080925570725:android:1f2204bcb1be27a2016f4c",
+        "android_client_info": {
+          "package_name": "com.nexm.lucidity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080925570725-dqdnl9plj4ntf4ipmnq8s9hl0e7bim8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexm.lucidity",
+            "certificate_hash": "eb33bbcb0bdd145a2a2976b43e8300af18777c83"
+          }
+        },
+        {
+          "client_id": "1080925570725-hj24l9ioom8u848imr46a2rkt79s3gol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRcttjoODZZQV09_MB_w8x0W6v8cJlo6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080925570725-hj24l9ioom8u848imr46a2rkt79s3gol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
