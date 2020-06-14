@@ -1,6 +1,9 @@
 package com.nexm.lucidity.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,9 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -47,6 +54,8 @@ public class PaperFragment extends Fragment {
     private TextView header1,header2,marksView,timeView,noTestView;
     private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
+    private SeekBar seekBar;
+    private long testTime;
 
     private OnFragmentInteractionListener mListener;
 
@@ -101,11 +110,13 @@ public class PaperFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_paper, container, false);
+        showStartDialog();
         header1 = root.findViewById(R.id.paper_header);
         header2 = root.findViewById(R.id.paper_desc);
         marksView = root.findViewById(R.id.paper_marks);
         timeView = root.findViewById(R.id.paper_time);
         noTestView = root.findViewById(R.id.paper_no_testsView);
+        seekBar = root.findViewById(R.id.paper_seekbar);
         noTestView.setVisibility(View.GONE);
         header1.setText(subkect+"/Unit. "+unitNo+"/"+unitName);
         header2.setText(desc);
@@ -116,13 +127,77 @@ public class PaperFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        recyclerView.setVisibility(View.GONE);
         return root;
+    }
+
+    private void showStartDialog() {
+        final Dialog dialog;
+
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.start_test_dialog_layout);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final TextView start = dialog.findViewById(R.id.start_test_dialog_start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                startTimer();
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+        final TextView cancel = dialog.findViewById(R.id.start_test_dialog_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                getActivity().onBackPressed();
+            }
+        });
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+    }
+
+    private void startTimer() {
+        testTime = (Integer.parseInt(time))*60000;
+        final long interval = 1000;
+        seekBar.setMax((Integer.parseInt(time))*60000);
+        TestCountdownTimer timer = new TestCountdownTimer(testTime,interval);
+        timer.start();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onPaperselection(uri);
+        }
+    }
+    public class TestCountdownTimer extends CountDownTimer{
+
+        public TestCountdownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntillFinished) {
+            timeView.setText("Remaining Time : " +((millisUntillFinished / (1000*60)%60 < 10) ? ":0" + millisUntillFinished / (1000*60)%60 : ":"+ millisUntillFinished / (1000*60)%60)+ (((millisUntillFinished/1000)%60 < 10) ? ":0" + (millisUntillFinished/1000)%60 : ":" + (millisUntillFinished/1000)%60));
+            seekBar.setProgress((int)(testTime-millisUntillFinished));
+
+
+        }
+
+        @Override
+        public void onFinish() {
+            timeView.setText("Time Finished !");
+            timeView.setTextColor(getActivity().getResources().getColor(R.color.red));
+            recyclerView.setVisibility(View.GONE);
         }
     }
 

@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="Remaining Time : 10:24 min"
+        android:textColor="@android:color/holo_green_dark"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paper_marks" />
@@ -57,7 +58,7 @@
         android:id="@+id/pape_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@color/back_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,5 +78,13 @@
         app:layout_constraintEnd_toEndOf="@+id/pape_recycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pape_recycler" />
+
+    <SeekBar
+        android:id="@+id/paper_seekbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/paper_time"
+        app:layout_constraintStart_toStartOf="@+id/paper_desc"
+        app:layout_constraintTop_toBottomOf="@+id/paper_time" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
