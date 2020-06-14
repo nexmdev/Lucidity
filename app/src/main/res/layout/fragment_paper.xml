@@ -60,6 +60,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:background="@color/back_grey"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,12 +80,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pape_recycler" />
 
-    <SeekBar
+    <ProgressBar
         android:id="@+id/paper_seekbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/paper_time"
         app:layout_constraintStart_toStartOf="@+id/paper_desc"
         app:layout_constraintTop_toBottomOf="@+id/paper_time" />
+
+    <TextView
+        android:id="@+id/paper_upload_answer_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Upload Answer Sheet\nYou can send answer sheet photo on Whats app number:\n9970738685"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/pape_recycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paper_seekbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

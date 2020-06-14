@@ -17,12 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.nexm.lucidity.LUCIDITY_APPLICATION;
 import com.nexm.lucidity.R;
@@ -51,10 +53,10 @@ public class PaperFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String testID,marks,time,unitNo,unitName,subkect,desc;
     private String mParam2;
-    private TextView header1,header2,marksView,timeView,noTestView;
+    private TextView header1,header2,marksView,timeView,noTestView,uploadAnswerSheet;
     private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
-    private SeekBar seekBar;
+    private ProgressBar seekBar;
     private long testTime;
 
     private OnFragmentInteractionListener mListener;
@@ -117,6 +119,7 @@ public class PaperFragment extends Fragment {
         timeView = root.findViewById(R.id.paper_time);
         noTestView = root.findViewById(R.id.paper_no_testsView);
         seekBar = root.findViewById(R.id.paper_seekbar);
+        uploadAnswerSheet = root.findViewById(R.id.paper_upload_answer_sheet);
         noTestView.setVisibility(View.GONE);
         header1.setText(subkect+"/Unit. "+unitNo+"/"+unitName);
         header2.setText(desc);
@@ -128,6 +131,13 @@ public class PaperFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         recyclerView.setVisibility(View.GONE);
+
+        uploadAnswerSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return root;
     }
 
@@ -198,7 +208,17 @@ public class PaperFragment extends Fragment {
             timeView.setText("Time Finished !");
             timeView.setTextColor(getActivity().getResources().getColor(R.color.red));
             recyclerView.setVisibility(View.GONE);
+            uploadAnswerSheet.setVisibility(View.VISIBLE);
+            updateRecord();
         }
+    }
+
+    private void updateRecord() {
+        LUCIDITY_APPLICATION.root_reference.child("Progress")
+                .child(LUCIDITY_APPLICATION.studentID)
+                .child("Tests")
+                .child(testID)
+                .setValue(System.currentTimeMillis());
     }
 
     @Override

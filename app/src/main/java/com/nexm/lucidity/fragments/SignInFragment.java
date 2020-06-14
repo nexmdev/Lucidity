@@ -274,7 +274,7 @@ public class SignInFragment extends Fragment {
         boolean valid = false;
         long today = System.currentTimeMillis();
         long daysPassed = today-date;
-        long trialPeriod = 18*24*60*60*1000;
+        long trialPeriod = 20*24*60*60*1000;
         if(daysPassed <= trialPeriod)valid=true;
         return valid;
     }

@@ -6,6 +6,7 @@
     <color name="yellow">#FFA726</color>
     <color name="black_overlay">#66000000</color>
     <color name="grey">#808080</color>
-    <color name="back_grey">#ECF0F3</color>
+    <color name="back_grey">#E5E8EB</color>
+    <color name="more_grey">#ECF0F3</color>
     <color name="red">#C51162</color>
 </resources>

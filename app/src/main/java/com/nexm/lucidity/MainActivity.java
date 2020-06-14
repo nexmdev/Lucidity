@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.nexm.lucidity.fragments.AboutFragment;
 import com.nexm.lucidity.fragments.PaperFragment;
 import com.nexm.lucidity.fragments.Sub_UnitFragment;
 import com.nexm.lucidity.fragments.TodayClassFragment;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
             String current = getIntent().getStringExtra("CURRENT_TOPIC");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentlayout,TopicsFragment.newInstance(unitNo,unitName,unitID,subject,description,current ))
+                    .commit();
+        }else if (caller.matches("About")){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentlayout, new AboutFragment())
                     .commit();
         }else{
             String unitNo = getIntent().getStringExtra("UNIT_NO");

@@ -351,7 +351,7 @@ public class TestFragment extends Fragment {
                         for(DataSnapshot childSnapShot : dataSnapshot.getChildren()){
                             progress += childSnapShot.getValue(int.class);
                         }
-                        Toast.makeText(getActivity(),"Progress :"+progress,Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getActivity(),"Progress :"+progress,Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                         if(progress == 100){
                             updateCurrentTopic();

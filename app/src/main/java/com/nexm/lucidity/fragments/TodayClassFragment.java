@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,7 @@ public class TodayClassFragment extends Fragment {
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
     private String currentSubject;
     private boolean STD10 = false;
+    private ImageView info;
 
     public TodayClassFragment() {
         // Required empty public constructor
@@ -106,6 +108,7 @@ public class TodayClassFragment extends Fragment {
         final TextView physics = view.findViewById(R.id.today_physics_textView);
         final TextView chemistry = view.findViewById(R.id.today_chemistry_textView);
         final TextView maths = view.findViewById(R.id.today_maths_textView);
+        info = view.findViewById(R.id.today_info_button);
        if(LUCIDITY_APPLICATION.standard.matches("STD-10-SEMI-ENG")){
             physics.setText("S-1");
             chemistry.setText("S-2");
@@ -194,6 +197,14 @@ public class TodayClassFragment extends Fragment {
                 intent.putExtra("VIDEO_ID",topic.getVideoID());
                 intent.putExtra("VIDEO_DURATION",topic.getVideoDuration());
                 intent.putExtra("SUBJECT",currentSubject);
+                getActivity().startActivity(intent);
+            }
+        });
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                intent.putExtra("CALLER","About");
                 getActivity().startActivity(intent);
             }
         });

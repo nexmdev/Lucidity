@@ -83,7 +83,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="MARKS : 24"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,6 +105,7 @@
         android:id="@+id/test_start"
         android:layout_width="80dp"
         android:layout_height="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/neu_small"
@@ -113,5 +114,20 @@
         android:textColor="@color/red"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    <TextView
+        android:id="@+id/test_dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/test_start"
+        app:layout_constraintEnd_toEndOf="@+id/test_start"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="@+id/test_start"
+        app:layout_constraintTop_toTopOf="@+id/test_start" />
 </androidx.constraintlayout.widget.ConstraintLayout>
