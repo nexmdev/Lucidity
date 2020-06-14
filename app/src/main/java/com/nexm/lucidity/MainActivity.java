@@ -6,15 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.nexm.lucidity.fragments.PaperFragment;
 import com.nexm.lucidity.fragments.Sub_UnitFragment;
 import com.nexm.lucidity.fragments.TodayClassFragment;
 import com.nexm.lucidity.fragments.TopicsFragment;
 import com.nexm.lucidity.fragments.UnitFragment;
+import com.nexm.lucidity.models.PaperQuestion;
 
 public class MainActivity extends AppCompatActivity implements TopicsFragment.OnFragmentInteractionListener,
         Sub_UnitFragment.OnFragmentInteractionListener,
         TodayClassFragment.OnFragmentInteractionListener,
-        UnitFragment.OnFragmentInteractionListener{
+        UnitFragment.OnFragmentInteractionListener,
+        PaperFragment.OnFragmentInteractionListener {
     private int index = 0;
 
     @Override
@@ -35,8 +38,17 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
                     .replace(R.id.fragmentlayout,TopicsFragment.newInstance(unitNo,unitName,unitID,subject,description,current ))
                     .commit();
         }else{
+            String unitNo = getIntent().getStringExtra("UNIT_NO");
+            String unitName = getIntent().getStringExtra("UNIT_NAME");
+            String testID = getIntent().getStringExtra("TEST_ID");
+            String subject = getIntent().getStringExtra("SUBJECT");
+            String marks = getIntent().getStringExtra("TEST_MARKS");
+            String time = getIntent().getStringExtra("TEST_TIME");
+            String desc = getIntent().getStringExtra("DESC");
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentlayout, PaperFragment.newInstance(testID,marks,time,subject,unitName,unitNo,desc))
+                    .commit();
 
-            Toast.makeText(this,"Tests",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -68,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPaperselection(Uri uri) {
 
     }
 }
