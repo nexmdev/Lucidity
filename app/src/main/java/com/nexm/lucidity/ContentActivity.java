@@ -1,15 +1,11 @@
 package com.nexm.lucidity;
 
-import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
 import android.widget.TextView;
 
 import com.nexm.lucidity.fragments.NotesFragment;
@@ -42,21 +38,12 @@ public class ContentActivity extends AppCompatActivity implements
         String topic_id = getIntent().getStringExtra("TOPIC_ID");
         String videoID = getIntent().getStringExtra("VIDEO_ID");
         String videoDuration = getIntent().getStringExtra("VIDEO_DURATION");
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(),topic_id ,videoID,videoDuration,getIntent().getStringExtra("TOPIC_NAME"),getIntent().getStringExtra("SUBJECT") );
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(ContentActivity.this, getSupportFragmentManager(),topic_id ,videoID,videoDuration,getIntent().getStringExtra("TOPIC_NAME"),getIntent().getStringExtra("SUBJECT") );
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(2);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -71,7 +58,9 @@ public class ContentActivity extends AppCompatActivity implements
         if(page.matches("next"))viewPager.setCurrentItem(2,true);
     }
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public void onFragmentInteraction() {
+        viewPager.setCurrentItem(1,true);
     }
+
+
 }

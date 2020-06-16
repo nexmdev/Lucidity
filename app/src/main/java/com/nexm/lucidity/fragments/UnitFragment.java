@@ -1,14 +1,10 @@
 package com.nexm.lucidity.fragments;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -153,10 +149,7 @@ public class UnitFragment extends Fragment {
                     @Override
                     public void onItemClick(final int currentposition) {
 
-                       // Toast.makeText(getActivity(),getItem(currentposition).getName(),Toast.LENGTH_SHORT).show();
-                        if(mListener != null){
-                           // mListener.onUnitSelection(getItem(currentposition).getId(), getItem(currentposition).getName(),getItem(currentposition).getColor());
-                        }
+
 
                     }
                 });

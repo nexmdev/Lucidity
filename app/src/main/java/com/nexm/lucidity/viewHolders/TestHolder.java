@@ -1,7 +1,6 @@
 package com.nexm.lucidity.viewHolders;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.nexm.lucidity.LUCIDITY_APPLICATION;
 import com.nexm.lucidity.R;
-import com.nexm.lucidity.models.Subject;
 import com.nexm.lucidity.models.Test;
 
 import java.text.SimpleDateFormat;

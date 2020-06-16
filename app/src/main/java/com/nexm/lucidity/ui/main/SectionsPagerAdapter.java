@@ -1,7 +1,6 @@
 package com.nexm.lucidity.ui.main;
 
 import android.content.Context;
-import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -10,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.nexm.lucidity.R;
+import com.nexm.lucidity.fragments.AboutFragment;
 import com.nexm.lucidity.fragments.NotesFragment;
 import com.nexm.lucidity.fragments.TestFragment;
 import com.nexm.lucidity.fragments.VideoFragment;
@@ -38,16 +38,20 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
+
         switch(position){
             case 0 :
-                fragment = VideoFragment.newInstance(videoID,videoDuration,topic_id);break;
+              return VideoFragment.newInstance(videoID,videoDuration,topic_id);
+
             case 1 :
-                fragment = NotesFragment.newInstance(topic_id,"x");break;
+                return NotesFragment.newInstance(topic_id,"x");
             case 2 :
-                fragment = TestFragment.newInstance(topic_id,topic_Name,Subject);break;
+                return TestFragment.newInstance(topic_id,topic_Name,Subject);
+
+                default:
+                    return null;
         }
-        return fragment;
+
     }
 
     @Nullable

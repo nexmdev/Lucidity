@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@null"
     tools:context=".fragments.AboutFragment">
 
     <ImageView
@@ -82,7 +82,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
     <TextView
-        android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -92,7 +91,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
     <TextView
-        android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="M.Sc.(Maths,Physics)B.Ed"
@@ -135,7 +133,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"

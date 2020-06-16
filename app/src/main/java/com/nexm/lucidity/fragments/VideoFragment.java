@@ -1,7 +1,6 @@
 package com.nexm.lucidity.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,11 +10,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.nexm.lucidity.LUCIDITY_APPLICATION;
 import com.nexm.lucidity.R;
 
 /**
@@ -33,13 +33,16 @@ public class VideoFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
     private CardView cardView;
+    private long startTime,endTime;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private String mParam3;
-
-
+    private YouTubePlayerSupportFragment youTubePlayerFragment;
+    private YouTubePlayer youTubePlayer;
+    private MyPlayerStateChangeListener playerStateChangeListener;
+    private MyPlaybackEventListener playbackEventListener;
     private OnFragmentInteractionListener mListener;
 
     public VideoFragment() {
@@ -64,6 +67,42 @@ public class VideoFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    private void initializeYoutubePlayer() {
+        Object obj =
+                getChildFragmentManager().findFragmentById(R.id.youtube_player_fragment);
+        if (obj instanceof YouTubePlayerSupportFragment)
+            youTubePlayerFragment = (YouTubePlayerSupportFragment) obj;
+
+
+        if (youTubePlayerFragment == null)
+            return;
+
+        youTubePlayerFragment.initialize("API_KEY", new YouTubePlayer.OnInitializedListener() {
+
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                                boolean wasRestored) {
+                if (!wasRestored) {
+                    youTubePlayer = player;
+
+                    //set the player style default
+                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+
+                    //cue the 1st video by default
+                    youTubePlayer.cueVideo(mParam1);
+                    youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+                    youTubePlayer.setPlaybackEventListener(playbackEventListener);
+                }else{
+                    //youTubePlayer.play();
+                }
+            } @Override
+            public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
+
+                //print or show error if initialization failed
+                //Log.e(TAG, "Youtube Player View initialization failed");
+            }
+        });
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +112,84 @@ public class VideoFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
             mParam3 = getArguments().getString(ARG_PARAM3);
         }
+
+    }
+    private final class MyPlaybackEventListener implements YouTubePlayer.PlaybackEventListener {
+
+        @Override
+        public void onPlaying() {
+            // Called when playback starts, either due to user action or call to play().
+
+        }
+
+        @Override
+        public void onPaused() {
+            // Called when playback is paused, either due to user action or call to pause().
+            endTime = System.currentTimeMillis();
+            long duration = endTime-startTime;
+            int durationInmin = (int)(duration/(1000*60 )%60);
+            if(durationInmin >= (int)((Integer.valueOf(mParam2))/2)){
+                LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
+            }
+        }
+
+        @Override
+        public void onStopped() {
+            // Called when playback stops for a reason other than being paused.
+
+        }
+
+        @Override
+        public void onBuffering(boolean b) {
+            // Called when buffering starts or ends.
+        }
+
+        @Override
+        public void onSeekTo(int i) {
+            // Called when a jump in playback position occurs, either
+            // due to user scrubbing or call to seekRelativeMillis() or seekToMillis()
+        }
+    }
+    private final class MyPlayerStateChangeListener implements YouTubePlayer.PlayerStateChangeListener {
+
+        @Override
+        public void onLoading() {
+            // Called when the player is loading a video
+            // At this point, it's not ready to accept commands affecting playback such as play() or pause()
+        }
+
+        @Override
+        public void onLoaded(String s) {
+            // Called when a video is done loading.
+            // Playback methods such as play(), pause() or seekToMillis(int) may be called after this callback.
+        }
+
+        @Override
+        public void onAdStarted() {
+            // Called when playback of an advertisement starts.
+        }
+
+        @Override
+        public void onVideoStarted() {
+            // Called when playback of the video starts.
+            startTime=System.currentTimeMillis();
+        }
+
+        @Override
+        public void onVideoEnded() {
+            // Called when the video reaches its end.
+            endTime = System.currentTimeMillis();
+            long duration = endTime-startTime;
+            int durationInmin = (int)(duration/(1000*60 )%60);
+            if(durationInmin >= (int)((Integer.valueOf(mParam2))/2)){
+                LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
+            }
+        }
+
+        @Override
+        public void onError(YouTubePlayer.ErrorReason errorReason) {
+            // Called when an error occurs.
+        }
     }
 
     @Override
@@ -80,17 +197,16 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
-        cardView = view.findViewById(R.id.videocard);
-        final TextView videoDurationTextView = view.findViewById(R.id.video_frag_durationView);
-        videoDurationTextView.setText("Duration : "+ mParam2+" min");
-        cardView.setOnClickListener(new View.OnClickListener() {
+        initializeYoutubePlayer();
+        playerStateChangeListener = new MyPlayerStateChangeListener();
+        playbackEventListener = new MyPlaybackEventListener();
+        final TextView tonotes = view.findViewById(R.id.video_to_notes);
+        tonotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),FullscreenActivity.class);
-                        intent.putExtra("VID_ID",mParam1);
-                intent.putExtra("VID_DURATION",mParam2);
-                intent.putExtra("TOPIC_ID",mParam3);
-                        getActivity().startActivity(intent);
+                if(mListener!=null){
+                    mListener.onFragmentInteraction();
+                }
             }
         });
         return view;
@@ -99,7 +215,7 @@ public class VideoFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction();
         }
     }
 
@@ -132,6 +248,6 @@ public class VideoFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction();
     }
 }

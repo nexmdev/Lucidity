@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.nexm.lucidity.R;
 import com.nexm.lucidity.models.PaperQuestion;
-import com.nexm.lucidity.models.Test;
 
 public class PaperQHolder extends RecyclerView.ViewHolder {
     private static OnItemClickListener listener;

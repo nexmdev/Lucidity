@@ -7,7 +7,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_notes"
         android:icon="@drawable/ic_action_document"
         android:title="Notes"
         android:visible="false" />
@@ -17,7 +16,6 @@
         android:icon="@drawable/ic_action_help"
         android:title="Tests" />
     <item
-        android:id="@+id/ask"
         android:icon="@drawable/ic_action_circles"
         android:title="Ask"
         android:visible="false" />

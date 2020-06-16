@@ -1,7 +1,6 @@
 package com.nexm.lucidity.viewHolders;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.nexm.lucidity.ContentActivity;
 import com.nexm.lucidity.LUCIDITY_APPLICATION;
 import com.nexm.lucidity.R;
 import com.nexm.lucidity.fragments.TopicsFragment;

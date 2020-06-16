@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.nexm.lucidity.fragments.AboutFragment;
 import com.nexm.lucidity.fragments.PaperFragment;
@@ -12,7 +11,6 @@ import com.nexm.lucidity.fragments.Sub_UnitFragment;
 import com.nexm.lucidity.fragments.TodayClassFragment;
 import com.nexm.lucidity.fragments.TopicsFragment;
 import com.nexm.lucidity.fragments.UnitFragment;
-import com.nexm.lucidity.models.PaperQuestion;
 
 public class MainActivity extends AppCompatActivity implements TopicsFragment.OnFragmentInteractionListener,
         Sub_UnitFragment.OnFragmentInteractionListener,

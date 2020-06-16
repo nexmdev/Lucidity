@@ -3,21 +3,24 @@ package com.nexm.lucidity.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.nexm.lucidity.LUCIDITY_APPLICATION;
 import com.nexm.lucidity.R;
@@ -48,7 +51,7 @@ public class NotesFragment extends Fragment {
     private NewZoomableImageView image;
     private ArrayList<Notes> notes = new ArrayList<>();
     private int index=0;
-
+    private ProgressBar progressBar;
     private OnFragmentInteractionListener mListener;
 
     public NotesFragment() {
@@ -84,6 +87,7 @@ public class NotesFragment extends Fragment {
     }
 
     private void getNotes() {
+
         notes.clear();
         LUCIDITY_APPLICATION.root_reference
                 .child("NOTES")
@@ -96,11 +100,13 @@ public class NotesFragment extends Fragment {
                                 Notes note = childSnapshot.getValue(Notes.class);
                                 notes.add(note);
                             }
+
                             setNote();
                             noNotesContinue.setVisibility(View.GONE);
                             previous.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
                         }else{
+
                             showNoNotes();
                         }
                     }
@@ -120,7 +126,7 @@ public class NotesFragment extends Fragment {
         previous.setVisibility(View.INVISIBLE);
         next.setVisibility(View.INVISIBLE);
         noNotesContinue.setVisibility(View.VISIBLE);
-        updateProgress();
+
     }
 
     private void setNote() {
@@ -131,14 +137,15 @@ public class NotesFragment extends Fragment {
             }else{
                 text.setVisibility(View.GONE);
             }
-            if(notes.get(index).getImageUrl()!= null){
+            if(notes.get(index).getImageUrl().matches("x")){
+                image.setVisibility(View.GONE);
+
+            }else{
                 image.setVisibility(View.VISIBLE);
                 Glide.with(getActivity())
                         .load(notes.get(index).getImageUrl())
                         .placeholder(R.drawable.ic_action_document)
                         .into(image);
-            }else{
-                image.setVisibility(View.GONE);
             }
             counter.setText(index+1+" / "+ notes.size());
 
@@ -156,14 +163,15 @@ public class NotesFragment extends Fragment {
         counter = view.findViewById(R.id.notes_counter);
         previous = view.findViewById(R.id.notes_previous);
         noNotesContinue = view.findViewById(R.id.notes_no_notes_continue);
-
+        progressBar = view.findViewById(R.id.notes_progress);
+        progressBar.setVisibility(View.GONE);
         next = view.findViewById(R.id.notes_next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 index++;
                 if(index+1>notes.size()){
-                    updateProgress();
+
                     showTestAlert();
 
                 }else{
@@ -189,20 +197,46 @@ public class NotesFragment extends Fragment {
         noNotesContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mListener!=null){
-                    mListener.onNotesSelection("next");
-                }
+                updateProgress();
             }
         });
         return view;
     }
 
+
     private void updateProgress() {
+        progressBar.setVisibility(View.VISIBLE);
         LUCIDITY_APPLICATION.root_reference.child("Progress")
                 .child(LUCIDITY_APPLICATION.studentID)
                 .child(topic_id)
                 .child("notes")
-                .setValue(30);
+                .runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+
+                        Integer c = mutableData.getValue(Integer.class);
+                        if(c == null){
+                            mutableData.setValue(30);
+                        }else {
+                            //mutableData.setValue(c+30);
+                        }
+
+                        return Transaction.success(mutableData);
+
+
+                    }
+
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                        //Toast.makeText(getActivity(), "Progress updated "+databaseError, Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        if(mListener!=null){
+
+                            mListener.onNotesSelection("next");
+                        }
+                    }
+                });
     }
 
     private void showTestAlert() {
@@ -225,9 +259,7 @@ public class NotesFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 //if(notes.size()>0) LUCIDITY_APPLICATION.updateProgress("notes",topic_id,30);
-                if(mListener!=null){
-                    mListener.onNotesSelection("next");
-                }
+                updateProgress();
             }
         });
 

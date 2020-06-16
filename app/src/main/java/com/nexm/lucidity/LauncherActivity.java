@@ -7,13 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +23,6 @@ import com.nexm.lucidity.fragments.SignInFragment;
 import com.nexm.lucidity.fragments.SignupFragment;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class LauncherActivity extends AppCompatActivity implements
             SignInFragment.OnFragmentInteractionListener,
@@ -34,12 +33,16 @@ public class LauncherActivity extends AppCompatActivity implements
     private HashMap<String, Object> firebaseDefaultMap;
     public static final String VERSION_CODE_KEY = "latest_app_version";
     private static final String TAG = "MainActivity";
+    private ImageView image;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         getSupportActionBar().hide();
+        progressBar = findViewById(R.id.launcher_progressbar);
+        image = findViewById(R.id.launcher_imageView);
         checkForUpdate();
 
 
@@ -62,7 +65,8 @@ public class LauncherActivity extends AppCompatActivity implements
                     //calling function to check if new version is available or not
                     checkForUpdateAvailability();
                 } else {
-
+                        image.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.launcher_frame_layout,new SignInFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
@@ -72,7 +76,7 @@ public class LauncherActivity extends AppCompatActivity implements
             }
         });
 
-        Log.d(TAG, "Default value: " + mFirebaseRemoteConfig.getString(VERSION_CODE_KEY));
+       // Log.d(TAG, "Default value: " + mFirebaseRemoteConfig.getString(VERSION_CODE_KEY));
     }
     private void checkForUpdateAvailability() {
         int latestAppVersion = (int) mFirebaseRemoteConfig.getDouble(VERSION_CODE_KEY);
@@ -91,6 +95,8 @@ public class LauncherActivity extends AppCompatActivity implements
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
+                            image.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.launcher_frame_layout,new SignInFragment())
                                     .commit();
@@ -98,7 +104,8 @@ public class LauncherActivity extends AppCompatActivity implements
                     }).setCancelable(false).show();
         } else {
            // Toast.makeText(this,"This app is already up to date", Toast.LENGTH_SHORT).show();
-
+            image.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.launcher_frame_layout,new SignInFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
