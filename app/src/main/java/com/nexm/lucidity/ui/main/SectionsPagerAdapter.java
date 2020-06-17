@@ -23,9 +23,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3};
     private final Context mContext;
-    private String topic_id,videoID,videoDuration,topic_Name,Subject;
+    private String topic_id,videoID,videoDuration,topic_Name,Subject,unit_ID;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm, String topicid, String vID, String vDuration, String topicName,String subject) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm, String topicid, String vID, String vDuration, String topicName,String subject,String unitID) {
         super(fm);
         mContext = context;
         topic_id = topicid;
@@ -33,6 +33,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         videoDuration = vDuration;
         topic_Name = topicName;
         Subject = subject;
+        unit_ID = unitID;
     }
 
 
@@ -46,7 +47,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1 :
                 return NotesFragment.newInstance(topic_id,"x");
             case 2 :
-                return TestFragment.newInstance(topic_id,topic_Name,Subject);
+                return TestFragment.newInstance(topic_id,topic_Name,Subject,unit_ID);
 
                 default:
                     return null;

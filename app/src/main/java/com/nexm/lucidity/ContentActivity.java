@@ -28,6 +28,7 @@ public class ContentActivity extends AppCompatActivity implements
         final TextView title = findViewById(R.id.title);
         String unitNo = getIntent().getStringExtra("UNIT_NO");
         String unitName = getIntent().getStringExtra("UNIT_NAME");
+        String unitID = getIntent().getStringExtra("UNIT_ID");
 
         title.setText("Unit no. "+unitNo+" : "+unitName);
         final TextView subtitle = findViewById(R.id.action_bar_subtitle);
@@ -38,7 +39,7 @@ public class ContentActivity extends AppCompatActivity implements
         String topic_id = getIntent().getStringExtra("TOPIC_ID");
         String videoID = getIntent().getStringExtra("VIDEO_ID");
         String videoDuration = getIntent().getStringExtra("VIDEO_DURATION");
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(ContentActivity.this, getSupportFragmentManager(),topic_id ,videoID,videoDuration,getIntent().getStringExtra("TOPIC_NAME"),getIntent().getStringExtra("SUBJECT") );
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(ContentActivity.this, getSupportFragmentManager(),topic_id ,videoID,videoDuration,getIntent().getStringExtra("TOPIC_NAME"),getIntent().getStringExtra("SUBJECT") ,unitID);
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(2);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
+    android:background="@android:color/black"
     tools:context=".fragments.NotesFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -27,12 +27,11 @@
                 android:id="@+id/notes_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/black"
                 android:fontFamily="@font/custom_font"
                 android:padding="16dp"
                 android:text="notes"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+                android:textColor="@color/back_grey"
+                android:textSize="18sp" />
 
             <com.nexm.lucidity.models.NewZoomableImageView
                 android:id="@+id/notes_image"
@@ -40,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:minHeight="300dp"
+                android:scaleType="center"
                 android:src="@drawable/a" />
 
         </LinearLayout>
@@ -49,7 +49,7 @@
         android:id="@+id/frameLayout5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/neu_small"
+        android:background="@color/back_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +81,8 @@
 
     <ImageView
         android:id="@+id/notes_previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
         android:clickable="true"
         android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/notes_counter"
@@ -93,8 +93,8 @@
 
     <ImageView
         android:id="@+id/notes_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
         android:clickable="true"
         android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/notes_counter"

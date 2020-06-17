@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -47,6 +49,7 @@ public class TodayClassFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private boolean chooseTopic = false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,7 +58,7 @@ public class TodayClassFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private TextView subjectView,unitView,topicView,progressView,videoView,notesView,
-            questionView,continueView,commingSoon,welcome,name;
+            questionView,continueView,commingSoon,welcome,name,lastSeen;
     private ProgressBar progressBar,top_progressbar;
     private Topic topic;
     private ConstraintLayout card;
@@ -105,6 +108,7 @@ public class TodayClassFragment extends Fragment {
         final TextView chemistry = view.findViewById(R.id.today_chemistry_textView);
         final TextView maths = view.findViewById(R.id.today_maths_textView);
         info = view.findViewById(R.id.today_info_button);
+        lastSeen = view.findViewById(R.id.today_lastseen);
        if(LUCIDITY_APPLICATION.standard.matches("STD-10-SEMI-ENG")){
             physics.setText("S-1");
             chemistry.setText("S-2");
@@ -136,7 +140,7 @@ public class TodayClassFragment extends Fragment {
         top_progressbar.setVisibility(View.VISIBLE);
         commingSoon.setVisibility(View.GONE);
         currentSubject = STD10 ? "S-1":"PHYSICS";
-        showTopicCard(currentSubject,view);
+        showTopicCard(currentSubject);
         setupAdapter("UNITS",LUCIDITY_APPLICATION.standard,currentSubject);
 
         physics.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +149,7 @@ public class TodayClassFragment extends Fragment {
                 //card.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.nue_button));
                 top_progressbar.setVisibility(View.VISIBLE);
                 currentSubject = STD10 ? "S-1":"PHYSICS";
-                showTopicCard(currentSubject,view);
+                showTopicCard(currentSubject);
                 toggleBackground(physics,chemistry,maths);
                 //continueView.setBackgroundResource(R.drawable.nue_button);
                 updataRecycleView(currentSubject);
@@ -159,7 +163,7 @@ public class TodayClassFragment extends Fragment {
                 //card.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.neu_blue));
                 top_progressbar.setVisibility(View.VISIBLE);
                 currentSubject = STD10 ? "S-2":"CHEMISTRY";
-                showTopicCard(currentSubject,view);
+                showTopicCard(currentSubject);
                 toggleBackground(chemistry,physics,maths);
                // continueView.setBackgroundResource(R.drawable.neu_blue);
                 //setupAdapter("UNITS","STD-12-SCI","CHEMISTRY");
@@ -174,7 +178,7 @@ public class TodayClassFragment extends Fragment {
                // card.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.neu_yellow));
                 top_progressbar.setVisibility(View.VISIBLE);
                 currentSubject = STD10 ? "M":"MATHS";
-                showTopicCard(currentSubject,view);
+                showTopicCard(currentSubject);
                 toggleBackground(maths,chemistry,physics);
                 //continueView.setBackgroundResource(R.drawable.neu_yellow);
                 updataRecycleView(currentSubject);
@@ -187,6 +191,7 @@ public class TodayClassFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ContentActivity.class);
                 intent.putExtra("UNIT_NO",topic.getUnitNo());
+                intent.putExtra("UNIT_ID",topic.getUnitID());
                 intent.putExtra("UNIT_NAME",topic.getUnitName());
                 intent.putExtra("TOPIC_ID",topic.getId());
                 intent.putExtra("TOPIC_NAME",topic.getName());
@@ -317,21 +322,21 @@ public class TodayClassFragment extends Fragment {
         physics.setTextColor(getActivity().getResources().getColor(R.color.grey));
     }
 
-    private void showTopicCard(String physics, View view) {
+    private void showTopicCard(String physics) {
 
         subjectView.setText(physics);
         LUCIDITY_APPLICATION.root_reference.child("Progress")
                 .child(LUCIDITY_APPLICATION.studentID)
                 .child("Current_Topic")
                 .child(physics)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
                             CurrentTopic currentTopic = dataSnapshot.getValue(CurrentTopic.class);
-                            getTopic(currentTopic.getProgress(),currentTopic.getId());
+                            getTopic(currentTopic.getProgress(),currentTopic.getId(),currentTopic.getUnitid());
                         }else{
-                            getTopic(0,"x");
+                            getTopic(0,"x","x");
                         }
                     }
 
@@ -343,9 +348,10 @@ public class TodayClassFragment extends Fragment {
 
     }
 
-    private void getTopic(final int progress, String topicID) {
+    private void getTopic(final int progress, final String topicID, String unitID) {
         Query query;
         if(topicID.matches("x")){
+            chooseTopic=true;
             query = LUCIDITY_APPLICATION.root_reference
                     .child("TOPICS")
                     .child(LUCIDITY_APPLICATION.standard)
@@ -356,9 +362,8 @@ public class TodayClassFragment extends Fragment {
                     .child("TOPICS")
                     .child(LUCIDITY_APPLICATION.standard)
                     .child(currentSubject)
-                    .orderByKey()
-                    .startAt(topicID)
-                    .limitToFirst(2);
+                    .orderByChild("unitID")
+                    .equalTo(unitID);
 
         }/*else{
             query = LUCIDITY_APPLICATION.root_reference
@@ -378,7 +383,16 @@ public class TodayClassFragment extends Fragment {
                // ArrayList<Topic> topics = new ArrayList<>();
                 if(dataSnapshot.exists()){
                     for(DataSnapshot child : dataSnapshot.getChildren()){
-                        topic=child.getValue(Topic.class);
+                        Topic topic1 =child.getValue(Topic.class);
+                        if(chooseTopic){
+                            topic = topic1;
+                            chooseTopic = false;
+                        }
+                        if(topicID.matches(topic1.getId())){
+                            chooseTopic = true;
+                            lastSeen.setText(topic1.getName());
+                        }
+
                     }
                    // topic = topics.get(0);
                     card.setVisibility(View.VISIBLE);
@@ -388,7 +402,7 @@ public class TodayClassFragment extends Fragment {
                     notesView.setText(String.valueOf(topic.getNotes())+" cards");
                     questionView.setText(String.valueOf(topic.getQuestions())+" questions");
                     videoView.setText(topic.getVideoDuration()+" min");
-                    getProgress(topic.getId());
+                    getProgress(topic.getId(),topic.getUnitID());
 
 
                 }else{
@@ -409,7 +423,7 @@ public class TodayClassFragment extends Fragment {
 
     }
 
-    private void getProgress(String id) {
+    private void getProgress(final String id, final String unitID) {
         LUCIDITY_APPLICATION.root_reference.child("Progress")
                 .child(LUCIDITY_APPLICATION.studentID)
                 .child(id)
@@ -425,7 +439,9 @@ public class TodayClassFragment extends Fragment {
                         }
                             progressBar.setProgress(progress);
                             progressView.setText(String.valueOf(progress)+" %");
-
+                            if(progress==100){
+                                updateCurrentTopic(id,progress,unitID);
+                            }
 
                     }
 
@@ -435,6 +451,29 @@ public class TodayClassFragment extends Fragment {
                         progressView.setText(String.valueOf(0)+" %");
                     }
                 });
+    }
+    private void updateCurrentTopic(String topicID,int progress,String unit_ID) {
+        CurrentTopic currentTopic = new CurrentTopic();
+        currentTopic.setId(topicID);
+        currentTopic.setProgress(progress);
+        currentTopic.setUnitid(unit_ID);
+        LUCIDITY_APPLICATION.root_reference.child("Progress")
+                .child(LUCIDITY_APPLICATION.studentID)
+                .child("Current_Topic")
+                .child(currentSubject)
+                .setValue(currentTopic)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                })
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                showTopicCard(currentSubject);
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

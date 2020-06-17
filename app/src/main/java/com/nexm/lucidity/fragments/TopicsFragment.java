@@ -198,6 +198,7 @@ public class TopicsFragment extends Fragment {
                             Topic c_topic =getItem(currentposition);
                             Intent intent = new Intent(getActivity(), ContentActivity.class);
                             intent.putExtra("UNIT_NO",c_topic.getUnitNo());
+                            intent.putExtra("UNIT_ID",c_topic.getUnitID());
                             intent.putExtra("UNIT_NAME",c_topic.getUnitName());
                             intent.putExtra("TOPIC_ID",c_topic.getId());
                             intent.putExtra("TOPIC_NAME",c_topic.getName());

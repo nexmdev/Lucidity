@@ -77,7 +77,7 @@ public class VideoFragment extends Fragment {
         if (youTubePlayerFragment == null)
             return;
 
-        youTubePlayerFragment.initialize("API_KEY", new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerFragment.initialize("AIzaSyDz0TrdsTWKReIdTF6rwZ3QOaSlNO6GqPo", new YouTubePlayer.OnInitializedListener() {
 
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
@@ -125,10 +125,7 @@ public class VideoFragment extends Fragment {
         @Override
         public void onPaused() {
             // Called when playback is paused, either due to user action or call to pause().
-            endTime = System.currentTimeMillis();
-            long duration = endTime-startTime;
-            int durationInmin = (int)(duration/(1000*60 )%60);
-            if(durationInmin >= (int)((Integer.valueOf(mParam2))/2)){
+           if(youTubePlayer.getDurationMillis()>0&&youTubePlayer.getCurrentTimeMillis()>= youTubePlayer.getDurationMillis()/2){
                 LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
             }
         }
@@ -178,10 +175,7 @@ public class VideoFragment extends Fragment {
         @Override
         public void onVideoEnded() {
             // Called when the video reaches its end.
-            endTime = System.currentTimeMillis();
-            long duration = endTime-startTime;
-            int durationInmin = (int)(duration/(1000*60 )%60);
-            if(durationInmin >= (int)((Integer.valueOf(mParam2))/2)){
+            if(youTubePlayer.getDurationMillis()>0&&youTubePlayer.getCurrentTimeMillis()>= youTubePlayer.getDurationMillis()/2){
                 LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
             }
         }

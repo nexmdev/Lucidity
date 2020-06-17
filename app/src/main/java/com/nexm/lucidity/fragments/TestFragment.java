@@ -24,7 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +56,7 @@ public class TestFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
     private TextView questionNoTextView,questionTextTextView,right,wrong,next,option1,
             option2,option3,unlock_answer,noTestContinue;
     private ImageView question_image,option1Image,option2Image,option3Image;
@@ -59,7 +64,7 @@ public class TestFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-    private String topicID,selectedAnswer,subject;
+    private String topicID,selectedAnswer,subject,unit_ID;
     private String mParam2;
     private AnimationDrawable myFrameAnimation1;
     private ArrayList<Question> questions = new ArrayList<>();
@@ -81,12 +86,13 @@ public class TestFragment extends Fragment {
      * @return A new instance of fragment TestFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TestFragment newInstance(String param1, String param2,String param3) {
+    public static TestFragment newInstance(String param1, String param2,String param3,String param4) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
+        args.putString(ARG_PARAM4, param4);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,6 +104,7 @@ public class TestFragment extends Fragment {
             topicID = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             subject = getArguments().getString(ARG_PARAM3);
+            unit_ID = getArguments().getString(ARG_PARAM4);
         }
 
     }
@@ -421,6 +428,7 @@ public class TestFragment extends Fragment {
         CurrentTopic currentTopic = new CurrentTopic();
         currentTopic.setId(topicID);
         currentTopic.setProgress(progress);
+        currentTopic.setUnitid(unit_ID);
         LUCIDITY_APPLICATION.root_reference.child("Progress")
                 .child(LUCIDITY_APPLICATION.studentID)
                 .child("Current_Topic")
@@ -571,10 +579,23 @@ public class TestFragment extends Fragment {
 
             }else{
                 option1Image.setVisibility(View.VISIBLE);
-
+                option1Image.setScaleType(ImageView.ScaleType.CENTER);
                 Glide.with(getActivity())
                         .load(questions.get(currentQ).getAnswer1Image())
-                        .apply(options)
+                        .placeholder(R.drawable.ic_photo_size_select_actual_black_24dp)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                option1Image.setImageResource(0);
+                                option1Image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                return false;
+                            }
+                        })
                         .into(option1Image);
             }
             if(questions.get(currentQ).getAnswer2Image().matches("x")){
@@ -582,10 +603,23 @@ public class TestFragment extends Fragment {
 
             }else{
                 option2Image.setVisibility(View.VISIBLE);
-
+                option2Image.setScaleType(ImageView.ScaleType.CENTER);
                 Glide.with(getActivity())
                         .load(questions.get(currentQ).getAnswer2Image())
-                        .apply(options)
+                        .placeholder(R.drawable.ic_photo_size_select_actual_black_24dp)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                option2Image.setImageResource(0);
+                                option2Image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                return false;
+                            }
+                        })
                         .into(option2Image);
             }
             if(questions.get(currentQ).getAnswer3Image().matches("x")){
@@ -593,10 +627,23 @@ public class TestFragment extends Fragment {
 
             }else{
                 option3Image.setVisibility(View.VISIBLE);
-
+                option3Image.setScaleType(ImageView.ScaleType.CENTER);
                 Glide.with(getActivity())
                         .load(questions.get(currentQ).getAnswer3Image())
-                        .apply(options)
+                        .placeholder(R.drawable.ic_photo_size_select_actual_black_24dp)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                option3Image.setImageResource(0);
+                                option3Image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                return false;
+                            }
+                        })
                         .into(option3Image);
             }
             if(questions.get(currentQ).getQuestionImage().matches("x")){
@@ -604,10 +651,23 @@ public class TestFragment extends Fragment {
 
             }else{
                 question_image.setVisibility(View.VISIBLE);
-
+                question_image.setScaleType(ImageView.ScaleType.CENTER);
                 Glide.with(getActivity())
                         .load(questions.get(currentQ).getQuestionImage())
-                        .apply(options)
+                        .placeholder(R.drawable.ic_photo_size_select_actual_black_24dp)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                question_image.setImageResource(0);
+                                question_image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                return false;
+                            }
+                        })
                         .into(question_image);
             }
 

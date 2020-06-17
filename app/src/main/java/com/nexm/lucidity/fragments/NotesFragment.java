@@ -3,6 +3,7 @@ package com.nexm.lucidity.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
@@ -142,9 +147,24 @@ public class NotesFragment extends Fragment {
 
             }else{
                 image.setVisibility(View.VISIBLE);
+                image.setScaleType(ImageView.ScaleType.CENTER);
                 Glide.with(getActivity())
                         .load(notes.get(index).getImageUrl())
-                        .placeholder(R.drawable.ic_action_document)
+                        .placeholder(R.drawable.ic_photo_size_select_actual_black_24dp)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                image.setImageResource(0);
+                                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                return false;
+                            }
+                        })
+
                         .into(image);
             }
             counter.setText(index+1+" / "+ notes.size());

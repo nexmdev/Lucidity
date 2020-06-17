@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="12dp"
+            android:padding="8dp"
             android:text="STD-9-SEMI-ENG"
             android:visibility="visible" />
 
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="12dp"
+            android:padding="8dp"
             android:text="STD-11-SCI"
             android:visibility="visible" />
 
