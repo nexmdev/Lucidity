@@ -77,7 +77,7 @@ public class VideoFragment extends Fragment {
         if (youTubePlayerFragment == null)
             return;
 
-        youTubePlayerFragment.initialize("AIzaSyDz0TrdsTWKReIdTF6rwZ3QOaSlNO6GqPo", new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerFragment.initialize("x", new YouTubePlayer.OnInitializedListener() {
 
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
