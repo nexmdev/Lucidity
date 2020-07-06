@@ -58,7 +58,7 @@ public class TodayClassFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private TextView subjectView,unitView,topicView,progressView,videoView,notesView,
-            questionView,continueView,commingSoon,welcome,name,lastSeen;
+            questionView,continueView,commingSoon,welcome,name,lastSeen,ticker;
     private ProgressBar progressBar,top_progressbar;
     private Topic topic;
     private ConstraintLayout card;
@@ -108,6 +108,9 @@ public class TodayClassFragment extends Fragment {
         final TextView chemistry = view.findViewById(R.id.today_chemistry_textView);
         final TextView maths = view.findViewById(R.id.today_maths_textView);
         info = view.findViewById(R.id.today_info_button);
+        ticker = view.findViewById(R.id.today_ticker);
+        ticker.setSelected(true);
+        fetchTicker();
         lastSeen = view.findViewById(R.id.today_lastseen);
        if(LUCIDITY_APPLICATION.standard.matches("STD-10-SEMI-ENG")){
             physics.setText("S-1");
@@ -219,6 +222,26 @@ public class TodayClassFragment extends Fragment {
         return view;
     }
 
+    private void fetchTicker() {
+        LUCIDITY_APPLICATION.root_reference
+                .child("TICKER")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            ticker.setText(dataSnapshot.getValue(String.class));
+                        }else{
+                            ticker.setText("* Welcome to Tutor pro , your personal tution at home . *** Attention **** For students taking admission to class 11 science - a free foundation course is available on Tutor pro.  ");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        ticker.setText("* Welcome to Tutor pro , your personal tution at home . * For any doubts contact Mahalley sir on 7775971543 ");
+                    }
+                });
+    }
+
     private void updataRecycleView(String subject) {
         final Query query = LUCIDITY_APPLICATION.root_reference
                 .child("UNITS")
@@ -323,8 +346,10 @@ public class TodayClassFragment extends Fragment {
     }
 
     private void showTopicCard(String physics) {
-
-        subjectView.setText(physics);
+        if(STD10 && physics.matches("S-1")) subjectView.setText("SCIENCE-1");
+        if(STD10 && physics.matches("S-2")) subjectView.setText("SCIENCE-2");
+        if(STD10 && physics.matches("M")) subjectView.setText("MATHS");
+        if(!STD10)subjectView.setText(physics);
         LUCIDITY_APPLICATION.root_reference.child("Progress")
                 .child(LUCIDITY_APPLICATION.studentID)
                 .child("Current_Topic")

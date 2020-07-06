@@ -125,7 +125,9 @@ public class VideoFragment extends Fragment {
         @Override
         public void onPaused() {
             // Called when playback is paused, either due to user action or call to pause().
-           if(youTubePlayer.getDurationMillis()>0&&youTubePlayer.getCurrentTimeMillis()>= youTubePlayer.getDurationMillis()/2){
+            int time = youTubePlayer.getDurationMillis();
+            int time2 = youTubePlayer.getCurrentTimeMillis();
+           if(time>0&&time2>= time/2){
                 LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
             }
         }
@@ -174,8 +176,9 @@ public class VideoFragment extends Fragment {
 
         @Override
         public void onVideoEnded() {
-            // Called when the video reaches its end.
-            if(youTubePlayer.getDurationMillis()>0&&youTubePlayer.getCurrentTimeMillis()>= youTubePlayer.getDurationMillis()/2){
+            int time = youTubePlayer.getDurationMillis();
+            int time2 = youTubePlayer.getCurrentTimeMillis();
+            if(time>0&&time2>= time/2){
                 LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
             }
         }

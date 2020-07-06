@@ -1,6 +1,8 @@
 package com.nexm.lucidity;
 
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +20,10 @@ public class BottomNavigationActivity extends AppCompatActivity implements Today
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
+        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         getSupportActionBar().hide();
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

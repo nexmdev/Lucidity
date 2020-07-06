@@ -1,11 +1,15 @@
 package com.nexm.lucidity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.nexm.lucidity.fragments.AboutFragment;
+import com.nexm.lucidity.fragments.LegalFragment;
 import com.nexm.lucidity.fragments.PaperFragment;
 import com.nexm.lucidity.fragments.Sub_UnitFragment;
 import com.nexm.lucidity.fragments.TodayClassFragment;
@@ -16,13 +20,18 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
         Sub_UnitFragment.OnFragmentInteractionListener,
         TodayClassFragment.OnFragmentInteractionListener,
         UnitFragment.OnFragmentInteractionListener,
-        PaperFragment.OnFragmentInteractionListener {
+        PaperFragment.OnFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener {
     private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         getSupportActionBar().hide();
         //getSupportActionBar().setElevation(0);
         String caller = getIntent().getStringExtra("CALLER");
@@ -89,5 +98,14 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
     @Override
     public void onPaperselection(Uri uri) {
 
+    }
+
+    @Override
+    public void onAboutSelection() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentlayout,new LegalFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                .addToBackStack("about")
+                .commit();
     }
 }

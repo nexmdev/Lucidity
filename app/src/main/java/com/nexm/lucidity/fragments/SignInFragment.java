@@ -272,7 +272,7 @@ public class SignInFragment extends Fragment {
         boolean valid = false;
         long today = System.currentTimeMillis();
         long daysPassed = today-date;
-        long trialPeriod = 20*24*60*60*1000;
+        long trialPeriod = 15*24*60*60*1000;
         if(daysPassed <= trialPeriod)valid=true;
         return valid;
     }
@@ -280,7 +280,7 @@ public class SignInFragment extends Fragment {
     private void showTrialExpiredDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Trial Period Over !")
-                .setMessage("Your free trial period of 8 days is over , to continue using app contact OM Coaching classes (Mo. no. 7775971543)")
+                .setMessage("Your free trial period of 15 days is over , to continue using app contact OM Coaching classes (Mo. no. 7775971543)")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

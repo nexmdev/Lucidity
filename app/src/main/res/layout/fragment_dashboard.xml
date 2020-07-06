@@ -30,7 +30,6 @@
             android:visibility="gone" />
 
         <RadioButton
-            android:id="@+id/std_9"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -39,7 +38,6 @@
             android:visibility="visible" />
 
         <RadioButton
-            android:id="@+id/std_11"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -48,7 +46,6 @@
             android:visibility="visible" />
 
         <RadioButton
-            android:id="@+id/std_10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -56,7 +53,6 @@
             android:text="STD-10-SEMI-ENG" />
 
         <RadioButton
-            android:id="@+id/std_12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

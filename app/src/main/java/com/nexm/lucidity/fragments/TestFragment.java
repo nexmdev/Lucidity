@@ -335,7 +335,7 @@ public class TestFragment extends Fragment {
 
         dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.custom_dialog);
+        dialog.setContentView(R.layout.dialog_layout);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final TextView topic = dialog.findViewById(R.id.dialog_topic_name);

@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.nexm.lucidity.R;
-import com.nexm.lucidity.fragments.AboutFragment;
 import com.nexm.lucidity.fragments.NotesFragment;
 import com.nexm.lucidity.fragments.TestFragment;
 import com.nexm.lucidity.fragments.VideoFragment;

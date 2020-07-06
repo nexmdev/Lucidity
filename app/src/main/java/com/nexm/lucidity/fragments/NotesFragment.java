@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,7 +140,12 @@ public class NotesFragment extends Fragment {
 
             if(notes.get(index).getText()!= null){
                 text.setVisibility(View.VISIBLE);
-                text.setText(notes.get(index).getText());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    text.setText(Html.fromHtml(notes.get(index).getText(), Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    text.setText(Html.fromHtml(notes.get(index).getText()));
+                }
+               // text.setText(notes.get(index).getText());
             }else{
                 text.setVisibility(View.GONE);
             }

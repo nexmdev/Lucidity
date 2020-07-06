@@ -4,9 +4,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_class">ClassActivity</string>
     <string name="title_activity_content">ContentActivity</string>
-    <string name="tab_text_1">Explanation</string>
+    <string name="tab_text_1">Video</string>
     <string name="tab_text_2">Notes</string>
-    <string name="tab_text_3">Test</string>
+    <string name="tab_text_3">MCQ</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -14,7 +14,4 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="player_error">Error initializing YouTube player: %s</string>
-    <string name="seek_to">Jump To</string>
-    <string name="seek_to_hint">Seconds</string>
 </resources>

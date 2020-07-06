@@ -1,5 +1,7 @@
 package com.nexm.lucidity;
 
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
@@ -24,6 +26,7 @@ public class ContentActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView title = findViewById(R.id.title);
         String unitNo = getIntent().getStringExtra("UNIT_NO");
