@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.nexm.lucidity.fragments.AboutFragment;
+import com.nexm.lucidity.fragments.CoursesFragment;
 import com.nexm.lucidity.fragments.LegalFragment;
 import com.nexm.lucidity.fragments.PaperFragment;
 import com.nexm.lucidity.fragments.Sub_UnitFragment;
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
         TodayClassFragment.OnFragmentInteractionListener,
         UnitFragment.OnFragmentInteractionListener,
         PaperFragment.OnFragmentInteractionListener,
-        AboutFragment.OnFragmentInteractionListener {
+        AboutFragment.OnFragmentInteractionListener,
+        CoursesFragment.OnFragmentInteractionListener{
     private int index = 0;
 
     @Override
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements TopicsFragment.On
                     .commit();
         }else if (caller.matches("About")){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentlayout, new AboutFragment())
+                    .replace(R.id.fragmentlayout, new CoursesFragment())
                     .commit();
         }else{
             String unitNo = getIntent().getStringExtra("UNIT_NO");

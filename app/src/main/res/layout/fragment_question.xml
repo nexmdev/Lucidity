@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Seems there are no questions for this topic !"
+            android:text="Seems there are no questions for this name !"
             android:textColor="@color/red"
             android:visibility="gone" />
 

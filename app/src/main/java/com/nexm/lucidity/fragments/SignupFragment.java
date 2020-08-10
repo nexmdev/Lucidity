@@ -57,8 +57,9 @@ public class SignupFragment extends Fragment {
     private ProgressBar progressBar;
     private RadioGroup radioGroup;
     private String standard;
-    private EditText namefield,addressfield,moNofield,altmoNofield,pinfield1,pinfield2,motherField;
-    private String name,address,moNo,moNo2,pin1,pin2,uid,mother;
+    private EditText namefield,addressfield,moNofield,altmoNofield,pinfield1,pinfield2,
+            motherField,middlenamefield,surnamefield;
+    private String name,middlename,surname,address,moNo,moNo2,pin1,pin2,uid,mother;
 
     private OnFragmentInteractionListener mListener;
 
@@ -101,7 +102,9 @@ public class SignupFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_signup, container, false);
         progressBar=view.findViewById(R.id.signup_progressbar);
         radioGroup = view.findViewById(R.id.profile_radioGroup);
-        namefield = view.findViewById(R.id.signup_nameInput);
+        namefield = view.findViewById(R.id.signup_nameInput1);
+        middlenamefield = view.findViewById(R.id.signup_nameInput2);
+        surnamefield = view.findViewById(R.id.signup_nameInput3);
         addressfield = view.findViewById(R.id.signup_addressInput);
         moNofield = view.findViewById(R.id.signup_monoInput);
         altmoNofield = view.findViewById(R.id.signup_monoAltInput);
@@ -154,10 +157,10 @@ public class SignupFragment extends Fragment {
 
                             Toast.makeText(getActivity(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
+                            progressBar.setVisibility(View.GONE);
                         }
 
-                        progressBar.setVisibility(View.GONE);
+
                     }
                 });
 
@@ -224,9 +227,10 @@ public class SignupFragment extends Fragment {
         student.setAddress(address);
         student.setAltMoNo(moNo2);
         student.setMoNo(moNo);
-        student.setName(name);
+        student.setName(name+" "+middlename+" "+surname);
         student.setStd(standard);
         student.setMotherName(mother);
+        student.setUid(uid);
     }
 
     private boolean validateProfile() {
@@ -237,6 +241,20 @@ public class SignupFragment extends Fragment {
             valid = false;
         } else {
             namefield.setError(null);
+        }
+        middlename = middlenamefield.getText().toString();
+        if (TextUtils.isEmpty(middlename)) {
+            middlenamefield.setError("Enter middle name.");
+            valid = false;
+        } else {
+            middlenamefield.setError(null);
+        }
+        surname = surnamefield.getText().toString();
+        if (TextUtils.isEmpty(surname)) {
+            surnamefield.setError("Enter surname.");
+            valid = false;
+        } else {
+            surnamefield.setError(null);
         }
         mother = motherField.getText().toString();
         if (TextUtils.isEmpty(mother)) {

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.nexm.lucidity.ui.home.LiveClass;
 import com.nexm.lucidity.fragments.TodayClassFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class BottomNavigationActivity extends AppCompatActivity implements TodayClassFragment.OnFragmentInteractionListener {
+public class BottomNavigationActivity extends AppCompatActivity implements TodayClassFragment.OnFragmentInteractionListener,
+        LiveClass.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,16 @@ public class BottomNavigationActivity extends AppCompatActivity implements Today
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        navView.setSelectedItemId(R.id.navigation_home);
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onLiveselection(Uri uri) {
 
     }
 }

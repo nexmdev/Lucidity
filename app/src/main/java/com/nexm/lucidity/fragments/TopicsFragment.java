@@ -205,6 +205,7 @@ public class TopicsFragment extends Fragment {
                             intent.putExtra("VIDEO_ID",c_topic.getVideoID());
                             intent.putExtra("VIDEO_DURATION",c_topic.getVideoDuration());
                             intent.putExtra("SUBJECT",subject);
+                            intent.putExtra("CALLER","TOPIC");
                             getActivity().startActivity(intent);
 
                         }

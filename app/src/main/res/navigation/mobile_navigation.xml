@@ -6,8 +6,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.nexm.lucidity.fragments.TodayClassFragment"
+        android:name="com.nexm.lucidity.ui.home.LiveClass"
         android:label="@string/title_home"
+        tools:layout="@layout/fragment_live_class" />
+    <fragment
+        android:id="@+id/navigation_today"
+        android:name="com.nexm.lucidity.fragments.TodayClassFragment"
+        android:label="Units"
         tools:layout="@layout/fragment_today_class" />
 
     <fragment

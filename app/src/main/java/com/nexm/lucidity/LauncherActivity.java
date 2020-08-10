@@ -24,10 +24,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.nexm.lucidity.fragments.SignInFragment;
 import com.nexm.lucidity.fragments.SignupFragment;
+import com.nexm.lucidity.models.Student;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -44,6 +51,8 @@ public class LauncherActivity extends AppCompatActivity implements
     private ImageView image;
     private ProgressBar progressBar;
     private SharedPreferences.Editor editor;
+    private FirebaseAuth auth ;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,8 @@ public class LauncherActivity extends AppCompatActivity implements
             editor.apply();
             showPrivacyPolicy();
         }
+        auth=FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         checkForUpdate();
 
 
@@ -135,10 +146,15 @@ public class LauncherActivity extends AppCompatActivity implements
                 } else {
                         image.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.launcher_frame_layout,new SignInFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                                .commit();
+                        if(user==null){
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.launcher_frame_layout,new SignInFragment())
+                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                                    .commit();
+                        }else{
+                            updateSharedPreferences();
+                        }
+
 
                 }
             }
@@ -174,10 +190,14 @@ public class LauncherActivity extends AppCompatActivity implements
            // Toast.makeText(this,"This app is already up to date", Toast.LENGTH_SHORT).show();
             image.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
+            if(user==null){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.launcher_frame_layout,new SignInFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                         .commit();
+            }else{
+                updateSharedPreferences();
+            }
 
         }
     }
@@ -189,6 +209,68 @@ public class LauncherActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
         return -1;
+    }
+    private void updateSharedPreferences() {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Students")
+                .child(user.getUid())
+
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            Student student = dataSnapshot.getValue(Student.class);
+
+                            LUCIDITY_APPLICATION.studentName = student.getName();
+                            LUCIDITY_APPLICATION.studentID = user.getUid();
+                            LUCIDITY_APPLICATION.standard = student.getStd();
+                            LUCIDITY_APPLICATION.paid = student.isPaid();
+
+                            if(student.isPaid() ||checkValidity(student.getDate())){
+                                progressBar.setVisibility(View.GONE);
+                                Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                                startActivity(intent);
+                                LauncherActivity.this.finish();
+                            }else{
+                                progressBar.setVisibility(View.GONE);
+                                showTrialExpiredDialog();
+                            }
+
+
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+    }
+
+    private boolean checkValidity(long date) {
+        boolean valid = false;
+        long today = System.currentTimeMillis();
+        long daysPassed = today-date;
+        long trialPeriod = 15*24*60*60*1000;
+        if(daysPassed <= trialPeriod)valid=true;
+        return valid;
+    }
+
+    private void showTrialExpiredDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Trial Period Over !")
+                .setMessage("Your free trial period of 15 days is over , to continue using app contact OM Coaching classes (Mo. no. 7775971543)")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        LauncherActivity.this.finish();
+
+                    }
+                });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     @Override

@@ -201,6 +201,7 @@ public class TodayClassFragment extends Fragment {
                 intent.putExtra("VIDEO_ID",topic.getVideoID());
                 intent.putExtra("VIDEO_DURATION",topic.getVideoDuration());
                 intent.putExtra("SUBJECT",currentSubject);
+                intent.putExtra("CALLER","TOPIC");
                 getActivity().startActivity(intent);
             }
         });
@@ -408,7 +409,7 @@ public class TodayClassFragment extends Fragment {
                // ArrayList<Topic> topics = new ArrayList<>();
                 if(dataSnapshot.exists()){
                     for(DataSnapshot child : dataSnapshot.getChildren()){
-                        Topic topic1 =child.getValue(Topic.class);
+                        Topic topic1 = child.getValue(Topic.class);
                         if(chooseTopic){
                             topic = topic1;
                             chooseTopic = false;

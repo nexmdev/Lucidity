@@ -86,12 +86,21 @@ public class VideoFragment extends Fragment {
                     youTubePlayer = player;
 
                     //set the player style default
-                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+                    if(mParam3.matches("LIVE")){
+                        youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+                        youTubePlayer.setFullscreen(true);
+                    }else{
+                        youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+
+                    }
 
                     //cue the 1st video by default
-                    youTubePlayer.cueVideo(mParam1);
+                    youTubePlayer.loadVideo(mParam1);
+                    youTubePlayer.play();
                     youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
                     youTubePlayer.setPlaybackEventListener(playbackEventListener);
+
+
                 }else{
                     //youTubePlayer.play();
                 }
@@ -128,7 +137,7 @@ public class VideoFragment extends Fragment {
             int time = youTubePlayer.getDurationMillis();
             int time2 = youTubePlayer.getCurrentTimeMillis();
            if(time>0&&time2>= time/2){
-                LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
+               // LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
             }
         }
 
@@ -159,6 +168,7 @@ public class VideoFragment extends Fragment {
 
         @Override
         public void onLoaded(String s) {
+            youTubePlayer.play();
             // Called when a video is done loading.
             // Playback methods such as play(), pause() or seekToMillis(int) may be called after this callback.
         }
@@ -176,11 +186,10 @@ public class VideoFragment extends Fragment {
 
         @Override
         public void onVideoEnded() {
-            int time = youTubePlayer.getDurationMillis();
-            int time2 = youTubePlayer.getCurrentTimeMillis();
-            if(time>0&&time2>= time/2){
-                LUCIDITY_APPLICATION.updateProgress("video",mParam3,40);
-            }
+
+                mListener.onFragmentInteraction();
+
+
         }
 
         @Override

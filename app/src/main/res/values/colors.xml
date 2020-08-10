@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#194568</color>
-    <color name="colorPrimaryDark">#194568</color>
-    <color name="colorAccent">#C51162</color>
+    <color name="colorPrimary">#1094ff</color>
+    <color name="colorPrimaryDark">#43abff</color>
+    <color name="colorAccent">#ff5c65</color>
     <color name="black_overlay">#66000000</color>
     <color name="grey">#808080</color>
     <color name="back_grey">#E5E8EB</color>
     <color name="more_grey">#ECF0F3</color>
-    <color name="red">#C51162</color>
+    <color name="red">#ff5c65</color>
+    <color name="grad_start">#00ACEA</color>
+    <color name="grad_end">#00EFD1</color>
+    <color name="gradp_start">#ED765E</color>
+    <color name="gradp_end">#FEA858</color>
+    <color name="blue">#a8d8ff</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

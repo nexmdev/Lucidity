@@ -8,12 +8,23 @@
     tools:context=".fragments.SignupFragment">
 
     <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/oc_logo_icon_blue"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/imageView5"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/logo"
+        android:src="@drawable/oc_logo_text_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Register for free"
+        android:text="@string/register_for_free"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,21 +120,50 @@
                     android:visibility="gone" />
             </RadioGroup>
 
-            <EditText
-                android:id="@+id/signup_nameInput"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
-                android:ems="10"
-                android:hint="Enter name of student"
-                android:inputType="textPersonName"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/signup_nameInput1"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/neu_down_small"
+                    android:ems="10"
+                    android:hint="name"
+                    android:inputType="textPersonName"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/signup_nameInput2"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/neu_down_small"
+                    android:ems="10"
+                    android:hint="middle name"
+                    android:inputType="textPersonName"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/signup_nameInput3"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/neu_down_small"
+                    android:ems="10"
+                    android:hint="surname"
+                    android:inputType="textPersonName"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/signup_nameInput_mother"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
+                android:layout_height="50dp"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:hint="Enter name of mother"
                 android:inputType="textPersonName"
@@ -141,7 +181,7 @@
                 android:id="@+id/signup_addressInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/neunewdown"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:gravity="left"
                 android:hint="Enter address of student"
@@ -154,8 +194,8 @@
             <EditText
                 android:id="@+id/signup_monoInput"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
+                android:layout_height="50dp"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:hint="Enter mobile number of student*"
                 android:inputType="number"
@@ -172,8 +212,8 @@
             <EditText
                 android:id="@+id/signup_monoAltInput"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
+                android:layout_height="50dp"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:hint="Enter mobile number of parent"
                 android:inputType="number"
@@ -183,8 +223,8 @@
             <EditText
                 android:id="@+id/signup_pin1"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
+                android:layout_height="50dp"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:hint="Set pin (4 digit)"
                 android:inputType="numberPassword"
@@ -193,8 +233,8 @@
             <EditText
                 android:id="@+id/signup_pin2"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/neunewdown"
+                android:layout_height="50dp"
+                android:background="@drawable/neu_down_small"
                 android:ems="10"
                 android:hint="Re enter pin"
                 android:inputType="numberPassword"

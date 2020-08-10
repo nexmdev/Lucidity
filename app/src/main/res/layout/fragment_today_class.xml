@@ -256,12 +256,14 @@
             android:id="@+id/today_cardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/neuneww"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/neu_small_pressed"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6">
+            app:layout_constraintTop_toTopOf="@+id/textView6">
 
             <TextView
                 android:id="@+id/today_card_subject_textView"
@@ -304,7 +306,7 @@
 
             <TextView
                 android:id="@+id/today_card_topic_textView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-light"
@@ -312,6 +314,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/today_card_continue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_unit_textView" />
 
@@ -324,6 +327,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:progress="0"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/today_card_progress_percentage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_topic_textView" />
@@ -337,16 +341,18 @@
                 android:text="0 %"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_topic_textView" />
 
 
             <TextView
                 android:id="@+id/today_card_continue"
-                android:layout_width="130dp"
-                android:layout_height="60dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/neuneww"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/neu_small_pressed"
                 android:gravity="center"
                 android:paddingStart="12dp"
                 android:paddingTop="8dp"
@@ -355,8 +361,9 @@
                 android:text="Continue"
                 android:textColor="#C51162"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/today_card_unit_textView" />
 
 
             <LinearLayout
@@ -366,6 +373,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_progressbar">
@@ -489,6 +497,7 @@
             android:layout_marginTop="4dp"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:text="Next Topic "
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
